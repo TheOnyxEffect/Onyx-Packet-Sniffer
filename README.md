@@ -12,6 +12,7 @@ A Python-based network threat detection system that captures live network traffi
 ---
 
 ## 📸 Preview
+<img width="1121" height="682" alt="Screenshot 2026-09-02 152215" src="https://github.com/user-attachments/assets/379032bc-aaa1-465b-b624-f01e38cacb19" />
 
 
 
@@ -37,8 +38,7 @@ This bridges raw packet capture with something a security analyst can actually *
 - 🗺️ **MITRE ATT&CK mapping** for every flagged event
 - 📊 **Real-time Streamlit dashboard** for visualizing traffic and alerts
 - 🧾 Alert logging for later review
-
-*(Update this list with anything specific to your rule set — e.g. exact ports/protocols monitored, or if there's export/reporting functionality.)*
+- 🔌 detects if ports 4444, 5555, 1234,31337, 8443, 9001 are being accessed by threat actors
 
 ---
 
@@ -59,20 +59,16 @@ This bridges raw packet capture with something a security analyst can actually *
 ```
 onyx-packet-sniffer/
 ├── sniffer/
-│   ├── capture.py          # Scapy packet capture logic
-│   ├── rules.py            # Detection rules / signatures
-│   ├── mitre_mapping.py    # MITRE ATT&CK tagging
-│   └── logger.py           # Alert logging
+│   ├── detector.py          # Scapy packet capture logic
+│   ├── test-traffic.py            # Detection rules / signatures
 ├── dashboard/
-│   └── app.py              # Streamlit dashboard
+│   └── dashboard.py              # Streamlit dashboard
 ├── assets/
 │   └── dashboard-preview.png
 ├── requirements.txt
 ├── README.md
 └── LICENSE
 ```
-
-*(This is a suggested layout — reorganize your current files into this shape, or share your actual file list and I'll map it out precisely.)*
 
 ---
 
@@ -99,13 +95,14 @@ pip install -r requirements.txt
 
 ```bash
 # Start the packet sniffer (run with elevated privileges)
-sudo python sniffer/capture.py
+sudo python detector.py
+
+# Start the detector
+sudo python test-traffic.py
 
 # In a separate terminal, launch the dashboard
-streamlit run dashboard/app.py
+streamlit run dashboard.py
 ```
-
-*(Adjust these commands to match your actual entry points.)*
 
 ---
 
@@ -115,10 +112,12 @@ Detected events are mapped to relevant ATT&CK tactics/techniques to give each al
 
 | Detected Activity | ATT&CK Tactic | Technique |
 |---|---|---|
-| Port scanning behavior | Reconnaissance | T1595 |
-| Traffic to known malicious IP | Command & Control | T1071 |
+| Port scanning detected | discovery | T1046 |
+| Application layer protocol: web protocol | Command & Control | T1071.001 |
+| Application layer protocol: DNS | Command & Control | T1071.004 |
+| Network service discovery | Discovery | T1046 |
+| Adversary-in-the-middle | Credential access | T1557 |
 
-*(Fill in with your actual mapped tactics/techniques.)*
 
 ---
 
@@ -140,7 +139,7 @@ I wanted hands-on practice with the full pipeline of network-based threat detect
 ## 👤 Author
 
 **Onyeka Ojei**
-Cybersecurity Analyst | OSINT & Fraud Investigation
+Cybersecurity Analyst 
 [LinkedIn] · [Portfolio]
 
 ---
