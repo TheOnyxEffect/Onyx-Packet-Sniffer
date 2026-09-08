@@ -129,7 +129,7 @@ I wanted hands-on practice with the full pipeline of network-based threat detect
 
 ## 🚧 Roadmap / Future Improvements
 
-- [ ] Add anomaly-based detection alongside signature rules
+- [ ] Improve the UI of the dashboard
 - [ ] Nigeria/region-specific threat feed integration
 - [ ] Export alerts to CSV/PDF reports
 - [ ] Dockerize for easier deployment
